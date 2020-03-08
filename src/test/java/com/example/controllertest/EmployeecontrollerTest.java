@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CruddemoApplication.class)
 @TestPropertySource(locations = "classpath:application-mock.properties")
-public class Employeecontroller {
+public class EmployeecontrollerTest {
 
 	@Autowired
 	private EmployeeController employeecontroller;
@@ -85,6 +85,36 @@ public class Employeecontroller {
 	}
 	@Test
 	public void findByIdTest() {
+
+		Employee employee = null;
+
+		try {
+
+			String studentResp = IOUtils
+					.toString(getClass().getClassLoader().getResourceAsStream("testdata/response.json"), "UTF-8");
+
+			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
+			});
+
+			
+
+			when(employeerepo.findById(1).get()).thenReturn(employee);
+
+			ResponseEntity<Object> response = employeecontroller.GetEmployeeById(1);
+
+			assertNotNull(response);
+
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+	@Test
+	public void saveupdateTest() {
 
 		Employee employee = null;
 
