@@ -1,26 +1,19 @@
 package com.example.controllertest;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import org.apache.commons.io.IOUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -39,22 +32,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CruddemoApplication.class)
 @TestPropertySource(locations = "classpath:application-mock.properties")
-public class StudentcontrollerTest {
+public class Employeecontroller {
 
 	@Autowired
-	private EmployeeController studentcontroller;
+	private EmployeeController employeecontroller;
 
 	@MockBean
-	IEmployeerepository studentrepo;
+	IEmployeerepository employeerepo;
 
 	@Autowired
 	@InjectMocks
-	EmployeService studentservice;
+	EmployeService employeeservice;
 
-	@Autowired
-	EntityManager em;
-	
-	
 	@Autowired
 	private ObjectMapper mapper;
 
@@ -66,22 +55,22 @@ public class StudentcontrollerTest {
 	@Test
 	public void getalltest() {
 
-		Employee student = null;
+		Employee employee = null;
 
 		try {
 
 			String studentResp = IOUtils
 					.toString(getClass().getClassLoader().getResourceAsStream("testdata/response.json"), "UTF-8");
 
-			student = mapper.readValue(studentResp, new TypeReference<Employee>() {
+			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
 			List<Employee> list = new ArrayList<Employee>();
-			list.add(student);
+			list.add(employee);
 
-			when(studentrepo.findAll()).thenReturn(list);
+			when(employeerepo.findAll()).thenReturn(list);
 
-			ResponseEntity<Object> response = studentcontroller.GetAllEmployees();
+			ResponseEntity<Object> response = employeecontroller.GetAllEmployees();
 
 			assertNotNull(response);
 
@@ -97,21 +86,21 @@ public class StudentcontrollerTest {
 	@Test
 	public void findByIdTest() {
 
-		Employee student = null;
+		Employee employee = null;
 
 		try {
 
 			String studentResp = IOUtils
 					.toString(getClass().getClassLoader().getResourceAsStream("testdata/response.json"), "UTF-8");
 
-			student = mapper.readValue(studentResp, new TypeReference<Employee>() {
+			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
 			
 
-			when(studentrepo.findById(1).get()).thenReturn(student);
+			when(employeerepo.findById(1).get()).thenReturn(employee);
 
-			ResponseEntity<Object> response = studentcontroller.GetEmployeeById(1);
+			ResponseEntity<Object> response = employeecontroller.GetEmployeeById(1);
 
 			assertNotNull(response);
 
@@ -124,18 +113,5 @@ public class StudentcontrollerTest {
 		}
 
 	}
-	@Test
-	public void deleteById() {
-
 	
-		try {
-
-			
-			
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			}
-
-	}	
 }

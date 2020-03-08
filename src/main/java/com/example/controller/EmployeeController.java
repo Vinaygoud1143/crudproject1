@@ -37,47 +37,52 @@ public class EmployeeController {
 			if (list.size() == 0) {
 				throw new EmployeeException("no employee records  found please add the records");
 			}
-			return new ResponseEntity<Object>(list, HttpStatus.OK);
+			
 		} catch (EmployeeException e) {
 			return new ResponseEntity<Object>(e.message, HttpStatus.NOT_FOUND);
 		}
-
+		return new ResponseEntity<Object>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation("this api for getting particular employee deatils")
 	@GetMapping(value = "/employee/{id}")
-	public ResponseEntity<Object> GetEmployeeById(@ApiParam(value="give id to get employee details",required = true)  @PathVariable Integer id)
+	public ResponseEntity<Object> GetEmployeeById(
+			@ApiParam(value = "give id to get employee details", required = true) @PathVariable Integer id)
 
 	{
+
+		Employee entity = null;
 		try {
 
-			Employee entity = employeeservice.findemployee(id);
-
-			return new ResponseEntity<Object>(entity, HttpStatus.OK);
+			entity = employeeservice.findemployee(id);
 
 		} catch (EmployeeException ex) {
 			return new ResponseEntity<Object>(ex.message, HttpStatus.NOT_FOUND);
 
 		}
+		return new ResponseEntity<Object>(entity, HttpStatus.OK);
 
 	}
 
 	@ApiOperation("this api for update the employee details or create employee  if employee not exist ")
 	@PostMapping("/employees")
-	public ResponseEntity<Object> CreateOrUpdateEmployee(@ApiParam(value="give employee detals",required = true)@RequestBody Employee employee) {
-		
+	public ResponseEntity<Object> CreateOrUpdateEmployee(
+			@ApiParam(value = "give employee detals", required = true) @RequestBody Employee employee) {
+
+		Employee updated = null;
 		try {
-		Employee updated = employeeservice.updatesaveemployee(employee);
-		return new ResponseEntity<Object>(updated, HttpStatus.OK);}
-		catch(Exception e) {
-			
-			return new ResponseEntity<Object>("please give correct employee details", HttpStatus.OK);	
+			updated = employeeservice.updatesaveemployee(employee);
+		} catch (Exception e) {
+
+			return new ResponseEntity<Object>("please give correct employee details", HttpStatus.OK);
 		}
+		return new ResponseEntity<Object>(updated, HttpStatus.OK);
 	}
 
 	@ApiOperation("this api for deleting employee for given  id")
 	@DeleteMapping("/employee/{id}")
-	public ResponseEntity<String> DeleteEmployeeById(@ApiParam(value="please give employee id ",required = true)@PathVariable("id") Integer id) {
+	public ResponseEntity<String> DeleteEmployeeById(
+			@ApiParam(value = "please give employee id ", required = true) @PathVariable("id") Integer id) {
 
 		try {
 			employeeservice.deleteEmployeeById(id);
