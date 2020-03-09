@@ -36,20 +36,23 @@ public class EmployeService {
 		return record;
 	}
 
-	public Employee updateOrSaveEmployee(Employee employee) {
+	public String updateOrSaveEmployee(Employee employee) {
 		Optional<Employee> employees = employeeRepo.findById(employee.getEmployeeNumber());
+		String result = null;
+		
 		if (employees.isPresent()) {
-			Employee employee1 = employees.get();
+			Employee existingEmployee = employees.get();
 
-			employee1.setEmployeeName(employee.getEmployeeName());
-			employee1.setEmployeeAddress(employee.getEmployeeAddress());
-			employee1.setDepartmentName(employee.getDepartmentName());
-			employee1 = employeeRepo.save(employee);
-			return employee1;
+			existingEmployee.setEmployeeName(employee.getEmployeeName());
+			existingEmployee.setEmployeeAddress(employee.getEmployeeAddress());
+			existingEmployee.setDepartmentName(employee.getDepartmentName());
+			employeeRepo.save(existingEmployee);
+			result = "Updated";
 		} else {
-			Employee newemployee = employeeRepo.save(employee);
-			return newemployee;
+			employeeRepo.save(employee);
+			result = "Created";
 		}
+		return result;
 	}
 
 	public void deleteEmployeeById(Integer employeeNumber) throws EmployeeException {
