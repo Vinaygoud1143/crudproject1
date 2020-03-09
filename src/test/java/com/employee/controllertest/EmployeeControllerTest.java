@@ -1,4 +1,4 @@
-/*package com.employee.controllertest;
+package com.employee.controllertest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,7 +70,7 @@ public class EmployeeControllerTest {
 
 			when(employeerepo.findAll()).thenReturn(list);
 
-			ResponseEntity<Object> response = employeecontroller.GetAllEmployees();
+			ResponseEntity<Object> response = employeecontroller.getListOfEmployees();
 
 			assertNotNull(response);
 
@@ -83,6 +83,7 @@ public class EmployeeControllerTest {
 		}
 
 	}
+
 	@Test
 	public void findByIdTest() {
 
@@ -96,11 +97,9 @@ public class EmployeeControllerTest {
 			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
-			
-
 			when(employeerepo.findById(1).get()).thenReturn(employee);
 
-			ResponseEntity<Object> response = employeecontroller.GetEmployeeById(1);
+			ResponseEntity<Object> response = employeecontroller.getEmployeeById(1);
 
 			assertNotNull(response);
 
@@ -113,6 +112,7 @@ public class EmployeeControllerTest {
 		}
 
 	}
+
 	@Test
 	public void saveupdateTest() {
 
@@ -126,11 +126,9 @@ public class EmployeeControllerTest {
 			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
-			
-
 			when(employeerepo.findById(1).get()).thenReturn(employee);
 
-			ResponseEntity<Object> response = employeecontroller.GetEmployeeById(1);
+			ResponseEntity<Object> response = employeecontroller.getEmployeeById(1);
 
 			assertNotNull(response);
 
@@ -143,5 +141,5 @@ public class EmployeeControllerTest {
 		}
 
 	}
-	
-}*/
+
+}
