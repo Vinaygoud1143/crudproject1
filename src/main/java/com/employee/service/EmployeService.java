@@ -25,7 +25,7 @@ public class EmployeService {
 		return alllist;
 	}
 
-	public Employee findEmployee(Integer employeeNumber) throws EmployeeException {
+	public Employee findEmployee(String employeeNumber) throws EmployeeException {
 		Optional<Employee> employee = employeeRepo.findById(employeeNumber);
 
 		if (!employee.isPresent()) {
@@ -55,7 +55,7 @@ public class EmployeService {
 		return result;
 	}
 
-	public void deleteEmployeeById(Integer employeeNumber) throws EmployeeException {
+	public void deleteEmployeeById(String employeeNumber) throws EmployeeException {
 		Optional<Employee> employee = employeeRepo.findById(employeeNumber);
 
 		if (employee.isPresent()) {

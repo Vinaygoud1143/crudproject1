@@ -1,4 +1,4 @@
-/*package com.employee.controller;
+package com.employee.controller;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,20 +9,22 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.employee.EmployeeApplication;
-import com.employee.controller.EmployeeController;
 import com.employee.entity.Employee;
 import com.employee.repository.IEmployeeRepo;
 import com.employee.service.EmployeService;
@@ -35,21 +37,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class EmployeeControllerTest {
 
 	@Autowired
-	private EmployeeController employeecontroller;
+	private EmployeeController employeeController;
 
-	@MockBean
-	IEmployeeRepo employeerepo;
+	@Mock
+	IEmployeeRepo employeeRepo;
 
 	@Autowired
 	@InjectMocks
-	EmployeService employeeservice;
+	EmployeService employeeService;
 
 	@Autowired
 	private ObjectMapper mapper;
 
+	private MockMvc mockMvc;
+
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		this.mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
+		ReflectionTestUtils.setField(employeeService, "employeeRepo", employeeRepo);
+
 	}
 
 	@Test
@@ -68,9 +74,9 @@ public class EmployeeControllerTest {
 			List<Employee> list = new ArrayList<Employee>();
 			list.add(employee);
 
-			when(employeerepo.findAll()).thenReturn(list);
+			when(employeeRepo.findAll()).thenReturn(list);
 
-			ResponseEntity<Object> response = employeecontroller.getListOfEmployees();
+			ResponseEntity<Object> response = employeeController.getListOfEmployees();
 
 			assertNotNull(response);
 
@@ -97,9 +103,9 @@ public class EmployeeControllerTest {
 			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
-			when(employeerepo.findById(1).get()).thenReturn(employee);
+			when(employeeRepo.findById("1").get()).thenReturn(employee);
 
-			ResponseEntity<Object> response = employeecontroller.getEmployeeById(1);
+			ResponseEntity<Object> response = employeeController.getEmployeeById("1");
 
 			assertNotNull(response);
 
@@ -126,9 +132,9 @@ public class EmployeeControllerTest {
 			employee = mapper.readValue(studentResp, new TypeReference<Employee>() {
 			});
 
-			when(employeerepo.findById(1).get()).thenReturn(employee);
+			when(employeeRepo.findById("102").get()).thenReturn(employee);
 
-			ResponseEntity<Object> response = employeecontroller.getEmployeeById(1);
+			ResponseEntity<Object> response = employeeController.getEmployeeById("102");
 
 			assertNotNull(response);
 
@@ -142,4 +148,4 @@ public class EmployeeControllerTest {
 
 	}
 
-}*/
+}

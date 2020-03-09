@@ -10,23 +10,23 @@ import javax.persistence.Table;
 public class Employee {
 
 	@Id
-	@Column (name = "employeenumber")
-	private int employeeNumber;
-	
-	@Column (name = "employeename")
+	@Column(name = "employeenumber")
+	private String employeeNumber;
+
+	@Column(name = "employeename")
 	private String employeeName;
-	
-	@Column (name = "departmentname")
+
+	@Column(name = "departmentname")
 	private String departmentName;
-	
+
 	@Column(name = "employeeaddress")
 	private String employeeAddress;
 
-	public int getEmployeeNumber() {
+	public String getEmployeeNumber() {
 		return employeeNumber;
 	}
 
-	public void setEmployeeNumber(int employeeNumber) {
+	public void setEmployeeNumber(String employeeNumber) {
 		this.employeeNumber = employeeNumber;
 	}
 
@@ -53,7 +53,5 @@ public class Employee {
 	public void setEmployeeAddress(String employeeAddress) {
 		this.employeeAddress = employeeAddress;
 	}
-
-	
 
 }
